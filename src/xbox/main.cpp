@@ -40,7 +40,7 @@ struct ControllerMappingState {
     bool btnA, btnB, btnMenu;
 } g_ctrlState = {0};
 
-void PollXboxController(RunnerKeyboard* keyboard) {
+void PollXboxController(RunnerKeyboardState* keyboard) {
     if (!keyboard) return;
 
     auto gamepads = Gamepad::Gamepads;

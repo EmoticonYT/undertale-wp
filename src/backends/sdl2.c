@@ -452,7 +452,7 @@ static void mapSdl2ToGml(SDL_GameController* gc, GamepadSlot* slot) {
 }
 
 
-static void translateGamepadToKeyboard(GamepadSlot* slot, RunnerKeyboard* keyboard) {
+static void translateGamepadToKeyboard(GamepadSlot* slot, RunnerKeyboardState* keyboard) {
     if (!slot || !keyboard) return;
     
     // Stick (Left Analog Stick) and DPad -> Arrow Keys
