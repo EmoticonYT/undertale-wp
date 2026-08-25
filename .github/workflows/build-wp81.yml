@@ -9,24 +9,45 @@ on:
 
 jobs:
   build-wp81:
-    runs-on: windows-latest
+    name: Build Undertale WP8.1 (ARMv7)
+    runs-on: ubuntu-24.04
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v2
-
-      - name: Build Windows Phone 8.1 ARM Binary
+      - name: Install build dependencies
         run: |
-          msbuild winphone/Butterscotch.WinPhone.sln /p:Configuration=Release /p:Platform=ARM /p:AppxBundle=Never /m
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build ccache llvm python3
 
-      - name: Package AppX Bundle with Undertale Assets
+      - name: Install LLVM-MinGW (ARMv7 Windows Toolchain)
         run: |
-          python tools/package_wp81.py winphone/ARM/Release/Butterscotch.exe dist/Undertale_WP8.1.appx
+          curl -L \
+            https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-ucrt-ubuntu-22.04-x86_64.tar.xz \
+            -o /tmp/llvm-mingw.tar.xz
+          sudo mkdir -p /opt/llvm-mingw
+          sudo tar -xf /tmp/llvm-mingw.tar.xz --strip-components=1 -C /opt/llvm-mingw
+          echo "/opt/llvm-mingw/bin" >> $GITHUB_PATH
 
-      - name: Upload Build Artifact
+      - name: Build Butterscotch ARMv7 Binary
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/llvm-mingw.cmake \
+            -DTARGET_TRIPLE=armv7-w64-windows-gnu \
+            -DENABLE_WAD16=ON \
+            -DENABLE_SW_RENDERER=ON \
+            -DAUDIO_BACKEND=miniaudio \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          /opt/llvm-mingw/bin/llvm-strip --strip-all build/butterscotch.exe || true
+
+      - name: Package Undertale Windows Phone 8.1 AppX
+        run: |
+          python3 tools/package_wp81.py build/butterscotch.exe dist/Undertale_WP8.1.appx
+
+      - name: Upload Windows Phone 8.1 AppX Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Undertale_WP8.1
+          name: Undertale_WP8.1_AppX
           path: dist/Undertale_WP8.1.appx
