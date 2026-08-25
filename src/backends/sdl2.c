@@ -450,6 +450,52 @@ static void mapSdl2ToGml(SDL_GameController* gc, GamepadSlot* slot) {
     }
 }
 
+
+static void translateGamepadToKeyboard(GamepadSlot* slot, RunnerKeyboard* keyboard) {
+    if (!slot || !keyboard) return;
+    
+    // Stick (Left Analog Stick) and DPad -> Arrow Keys
+    bool up = slot->buttonDown[12] || (slot->axisValue[1] < -0.35f);
+    bool down = slot->buttonDown[13] || (slot->axisValue[1] > 0.35f);
+    bool left = slot->buttonDown[14] || (slot->axisValue[0] < -0.35f);
+    bool right = slot->buttonDown[15] || (slot->axisValue[0] > 0.35f);
+    
+    // A: Enter / Z
+    bool btnA = slot->buttonDown[0];
+    
+    // B: X / Shift
+    bool btnB = slot->buttonDown[1];
+    
+    // Menu (Start): C / Control
+    bool btnMenu = slot->buttonDown[9];
+    
+    static bool prevUp = false, prevDown = false, prevLeft = false, prevRight = false;
+    static bool prevA = false, prevB = false, prevMenu = false;
+    
+    #define SYNC_PAD_KEY(curr, prev, vk1, vk2) do { \
+        if ((curr) != (prev)) { \
+            if (curr) { \
+                RunnerKeyboard_onKeyDown(keyboard, vk1); \
+                if (vk2 != 0) RunnerKeyboard_onKeyDown(keyboard, vk2); \
+            } else { \
+                RunnerKeyboard_onKeyUp(keyboard, vk1); \
+                if (vk2 != 0) RunnerKeyboard_onKeyUp(keyboard, vk2); \
+            } \
+            prev = curr; \
+        } \
+    } while(0)
+    
+    SYNC_PAD_KEY(up, prevUp, VK_UP, 0);
+    SYNC_PAD_KEY(down, prevDown, VK_DOWN, 0);
+    SYNC_PAD_KEY(left, prevLeft, VK_LEFT, 0);
+    SYNC_PAD_KEY(right, prevRight, VK_RIGHT, 0);
+    SYNC_PAD_KEY(btnA, prevA, VK_RETURN, 'Z');
+    SYNC_PAD_KEY(btnB, prevB, 'X', VK_SHIFT);
+    SYNC_PAD_KEY(btnMenu, prevMenu, 'C', VK_CONTROL);
+    
+    #undef SYNC_PAD_KEY
+}
+
 bool platformHandleEvents(void) {
     SDL_Event e;
     while (SDL_PollEvent(&e)) {
@@ -563,6 +609,7 @@ bool platformHandleEvents(void) {
                 if (!slot->buttonDown[btn] && wasDown) slot->buttonReleased[btn] = true;
             }
             g_runner->gamepads->connectedCount++;
+            translateGamepadToKeyboard(slot, g_runner->keyboard);
         } else {
             if (gc) {
                 SDL_GameControllerClose(gc);

@@ -1,0 +1,72 @@
+name: Build Xbox Dev Mode (UWP) Package
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-xbox:
+    name: Build Undertale Xbox UWP (x64)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build ccache llvm python3
+
+      - name: Install LLVM-MinGW (x64 Windows Toolchain)
+        run: |
+          curl -L \
+            https://github.com/mstorsjo/llvm-mingw/releases/download/20260728/llvm-mingw-20260728-ucrt-ubuntu-22.04-x86_64.tar.xz \
+            -o /tmp/llvm-mingw.tar.xz
+          sudo mkdir -p /opt/llvm-mingw
+          sudo tar -xf /tmp/llvm-mingw.tar.xz --strip-components=1 -C /opt/llvm-mingw
+          echo "/opt/llvm-mingw/bin" >> "$GITHUB_PATH"
+
+      - name: Checkout GLFW
+        uses: actions/checkout@v4
+        with:
+          repository: glfw/glfw
+          ref: fdd14e65b1c29e4e6df875fb5669ec00d6793531
+          path: vendor/glfw
+
+      - name: Build GLFW for MinGW x64
+        run: |
+          cmake -B vendor/glfw/build -S vendor/glfw -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/llvm-mingw.cmake \
+            -DTARGET_TRIPLE=x86_64-w64-windows-gnu \
+            -DCMAKE_INSTALL_PREFIX=/usr/x86_64-w64-mingw32 \
+            -DGLFW_BUILD_EXAMPLES=OFF -DGLFW_BUILD_TESTS=OFF -DGLFW_BUILD_DOCS=OFF
+          cmake --build vendor/glfw/build
+          sudo cmake --install vendor/glfw/build
+
+      - name: Build Butterscotch x64 Binary
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}/cmake/llvm-mingw.cmake \
+            -DCMAKE_FIND_ROOT_PATH=/usr/x86_64-w64-mingw32 \
+            -DTARGET_TRIPLE=x86_64-w64-windows-gnu \
+            -DBACKEND=glfw3 \
+            -DENABLE_WAD16=ON \
+            -DENABLE_SW_RENDERER=ON \
+            -DAUDIO_BACKEND=miniaudio \
+            -DCMAKE_BUILD_TYPE=Release
+          cmake --build build
+          /opt/llvm-mingw/bin/llvm-strip --strip-all build/butterscotch.exe || true
+
+      - name: Package Undertale Xbox UWP AppX
+        run: |
+          python3 tools/package_xbox.py build/butterscotch.exe dist/Undertale_Xbox_UWP.appx
+
+      - name: Upload Xbox Dev Mode AppX Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Undertale_Xbox_DevMode_AppX
+          path: dist/Undertale_Xbox_UWP.appx

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10">
+  <Identity Name="TobyFox.UndertaleXbox"
+            Publisher="CN=Butterscotch"
+            Version="1.0.8.0"
+            ProcessorArchitecture="x64" />
+  <Properties>
+    <DisplayName>UNDERTALE</DisplayName>
+    <PublisherDisplayName>Butterscotch Team</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>UNDERTALE for Xbox Dev Mode (UWP).</Description>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.14393.0" MaxVersionTested="10.0.19041.0" />
+    <TargetDeviceFamily Name="Windows.Xbox" MinVersion="10.0.14393.0" MaxVersionTested="10.0.19041.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="Butterscotch.exe" EntryPoint="Butterscotch.App">
+      <uap:VisualElements DisplayName="UNDERTALE"
+                          Description="UNDERTALE"
+                          BackgroundColor="#000000"
+                          Square150x150Logo="Assets\Logo.png"
+                          Square44x44Logo="Assets\SmallLogo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\WideLogo.png" ShortName="UNDERTALE" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClientServer" />
+  </Capabilities>
+</Package>
