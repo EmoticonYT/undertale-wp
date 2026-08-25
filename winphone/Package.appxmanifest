@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
+  <Identity Name="TobyFox.UndertaleWP" Publisher="CN=Butterscotch" Version="1.0.8.0" ProcessorArchitecture="arm" />
+  <mp:PhoneIdentity PhoneProductId="a3b98c56-11f4-41d3-8b77-3e110c71a399" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>UNDERTALE</DisplayName>
+    <PublisherDisplayName>Butterscotch Team</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+    <Description>UNDERTALE for Windows Phone 8.1 powered by Butterscotch Runner.</Description>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.3.1</OSMinVersion>
+    <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="Butterscotch.exe" EntryPoint="Butterscotch.App">
+      <m3:VisualElements DisplayName="UNDERTALE" Description="UNDERTALE" BackgroundColor="#000000" ForegroundText="light" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png">
+        <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png" Wide310x150Logo="Assets\Logo.png">
+          <m3:ShowNameOnTiles>
+            <m3:ShowOn Tile="square150x150Tile" />
+          </m3:ShowNameOnTiles>
+        </m3:DefaultTile>
+        <m3:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#000000" />
+        <m3:InitialRotationPreference>
+          <m3:Rotation Preference="landscape" />
+          <m3:Rotation Preference="landscapeFlipped" />
+        </m3:InitialRotationPreference>
+      </m3:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClientServer" />
+  </Capabilities>
+</Package>

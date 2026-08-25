@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|ARM">
+      <Configuration>Debug</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|ARM">
+      <Configuration>Release</Configuration>
+      <Platform>ARM</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4D2A91F6-C891-4B2E-99E7-37B75A6C2B4E}</ProjectGuid>
+    <RootNamespace>Butterscotch_WinPhone</RootNamespace>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <AppContainerApplication>true</AppContainerApplication>
+    <ApplicationType>Windows Phone</ApplicationType>
+    <ApplicationTypeRevision>8.1</ApplicationTypeRevision>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v120_wp81</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\src\winphone;$(ProjectDir)..\vendor\miniaudio;$(ProjectDir)..\src\audio\miniaudio;$(ProjectDir)..\vendor\stb\ds;$(ProjectDir)..\vendor\stb\vorbis;$(ProjectDir)..\vendor\stb\image;$(ProjectDir)..\vendor\md5;$(ProjectDir)..\vendor\sha1;$(ProjectDir)..\vendor\base64;$(ProjectDir)..\vendor\bzip2;$(ProjectDir)..\compat\getopt;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;ENABLE_WAD16;ENABLE_SW_RENDERER;USE_MINIAUDIO;PLATFORM_WINPHONE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAsWinRT>true</CompileAsWinRT>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;ole32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Logo.png" />
+    <Image Include="Assets\Logo.scale-240.png" />
+    <Image Include="Assets\SmallLogo.png" />
+    <Image Include="Assets\SmallLogo.scale-240.png" />
+    <Image Include="Assets\Square71x71Logo.png" />
+    <Image Include="Assets\Square71x71Logo.scale-240.png" />
+    <Image Include="Assets\StoreLogo.png" />
+    <Image Include="Assets\StoreLogo.scale-240.png" />
+    <Image Include="Assets\SplashScreen.png" />
+    <Image Include="Assets\SplashScreen.scale-240.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\winphone\main.cpp" />
+    <ClCompile Include="..\src\winphone\touch_overlay.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\winphone\log.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\winphone\stb_impl.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\loop.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\runner.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\vm.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\vm_builtins.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\data_win.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\data_win_print.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\binary_reader.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\instance.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\event_table.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\gml_array.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\gml_method.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\ini.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\input_recording.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\int_int_hashmap.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\int_rvalue_hashmap.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\json_reader.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\json_writer.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\noop_audio_system.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\noop_file_system.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\overlay_file_system.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\profiler.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\random.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\runner_gamepad.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\runner_keyboard.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\runner_mouse.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\spatial_grid.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\stb_ds.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\string_builder.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\gettime.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\debug_overlay.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\src\audio\miniaudio\ma_audio_system.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\md5\md5.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\sha1\sha1.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\base64\base64.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\bz_internal_error.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\bzlib.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\crctable.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\decompress.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\huffman.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+    <ClCompile Include="..\vendor\bzip2\randtable.c"><CompileAsWinRT>false</CompileAsWinRT></ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets" />
+</Project>

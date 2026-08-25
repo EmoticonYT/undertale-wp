@@ -6,3 +6,6 @@ CMakeUserPresets.json
 compat/config.mk
 /.vs
 *.log
+dist/
+build_appx_staging/
+*.appx

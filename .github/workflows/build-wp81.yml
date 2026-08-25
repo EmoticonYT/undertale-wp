@@ -1,0 +1,32 @@
+name: Build Windows Phone 8.1 Package
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-wp81:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build Windows Phone 8.1 ARM Binary
+        run: |
+          msbuild winphone/Butterscotch.WinPhone.sln /p:Configuration=Release /p:Platform=ARM /p:AppxBundle=Never /m
+
+      - name: Package AppX Bundle with Undertale Assets
+        run: |
+          python tools/package_wp81.py winphone/ARM/Release/Butterscotch.exe dist/Undertale_WP8.1.appx
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Undertale_WP8.1
+          path: dist/Undertale_WP8.1.appx
