@@ -17,6 +17,7 @@
 #include "platformdefs.h"
 #include "gettime.h"
 #include "runner_mouse.h"
+#include "runner_keyboard.h"
 
 static GLFWwindow *window;
 static Runner *g_runner;

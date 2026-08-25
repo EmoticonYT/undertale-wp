@@ -8,6 +8,7 @@
 #include "platformdefs.h"
 #include "gettime.h"
 #include "runner_mouse.h"
+#include "runner_keyboard.h"
 
 static Runner *g_runner;
 static SDL_Surface* scr;
