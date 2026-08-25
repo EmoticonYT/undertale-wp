@@ -1,0 +1,5 @@
+*.ogg -delta
+*.win -delta
+*.png -delta
+*.dat -delta
+*.appx -delta

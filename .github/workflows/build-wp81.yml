@@ -9,13 +9,13 @@ on:
 
 jobs:
   build-wp81:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup MSBuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
 
       - name: Build Windows Phone 8.1 ARM Binary
         run: |
@@ -26,7 +26,7 @@ jobs:
           python tools/package_wp81.py winphone/ARM/Release/Butterscotch.exe dist/Undertale_WP8.1.appx
 
       - name: Upload Build Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Undertale_WP8.1
           path: dist/Undertale_WP8.1.appx
